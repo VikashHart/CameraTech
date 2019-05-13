@@ -35,6 +35,7 @@ class ImagePreviewViewController: UIViewController {
     }
 
     private func setupConstraints() {
+        view.addSubview(imagePreviewView)
         imagePreviewView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             imagePreviewView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

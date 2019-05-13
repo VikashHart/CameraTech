@@ -13,7 +13,6 @@ class ImagePreviewView: UIView {
         let button = UIButton()
         button.setImage(UIImage(named: "back_button")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .white
-        button.layer.opacity = 1
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -49,10 +48,12 @@ class ImagePreviewView: UIView {
     }
 
     private func setupBackButton() {
-        capturedImageView.addSubview(backButton)
+        addSubview(backButton)
         NSLayoutConstraint.activate([
-            backButton.topAnchor.constraint(equalTo: capturedImageView.topAnchor, constant: 10),
-            backButton.leadingAnchor.constraint(equalTo: capturedImageView.leadingAnchor, constant: 10)
+            backButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
+            backButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            backButton.heightAnchor.constraint(equalToConstant: 40),
+            backButton.widthAnchor.constraint(equalToConstant: 40)
             ])
     }
 

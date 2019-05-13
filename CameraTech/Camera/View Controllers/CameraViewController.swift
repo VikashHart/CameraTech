@@ -3,7 +3,7 @@ import UIKit
 class CameraViewController: UIViewController {
 
     let cameraPreviewLayer = CameraPreviewLayerView()
-    let captureSession: PhotoCaptureable = CaptureSession()
+    var captureSession: PhotoCaptureable = CaptureSession()
 
     let minimumZoom: CGFloat = 1.0
     let maximumZoom: CGFloat = 3.0
@@ -15,6 +15,7 @@ class CameraViewController: UIViewController {
         captureSession.configurePreview(view: cameraPreviewLayer.previewLayer)
         setupButtons()
         configureGestures()
+        presentPreviewVC()
     }
 
     @objc func flashMode() {
@@ -107,9 +108,11 @@ class CameraViewController: UIViewController {
         self.cameraPreviewLayer.previewLayer.addGestureRecognizer(pinchToZoom)
     }
 
-    func presentPreviewVC(image: UIImage) {
-        let imagePreviewVC = ImagePreviewViewController(capturedImage: image)
-        present(imagePreviewVC, animated: true, completion: nil)
+    func presentPreviewVC() {
+        captureSession.onImageCaptured = { [weak self] (image) in
+            let imagePreviewVC = ImagePreviewViewController(capturedImage: image)
+            self?.present(imagePreviewVC, animated: true, completion: nil)
+        }
     }
 
     private func setupConstraints() {

@@ -2,6 +2,8 @@ import UIKit
 import AVFoundation
 
 protocol PhotoCaptureable {
+    var onImageCaptured: ((UIImage) -> Void)? { get set }
+
     func getDevice() -> AVCaptureDevice
 
     func captureImage()
@@ -40,6 +42,8 @@ class CaptureSession: NSObject, PhotoCaptureable, AVCapturePhotoCaptureDelegate 
     private let photoSessionPreset = AVCaptureSession.Preset.photo
 
     private let sessionQueue = DispatchQueue(label: "session Queue")
+
+    var onImageCaptured: ((UIImage) -> Void)?
 
     override init() {
         let statusBarOrientation = UIApplication.shared.statusBarOrientation
@@ -171,8 +175,7 @@ class CaptureSession: NSObject, PhotoCaptureable, AVCapturePhotoCaptureDelegate 
         if let imageData = photo.fileDataRepresentation() {
 
             guard let image = UIImage(data: imageData) else { return }
-            
-
+            onImageCaptured?(image)
         }
     }
 
