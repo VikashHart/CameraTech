@@ -1,10 +1,5 @@
-//
 //  AppDelegate.swift
 //  CameraTech
-//
-//  Created by C4Q on 5/2/19.
-//  Copyright © 2019 Vikash Hart. All rights reserved.
-//
 
 import UIKit
 
