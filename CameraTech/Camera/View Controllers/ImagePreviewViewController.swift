@@ -9,7 +9,9 @@ class ImagePreviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupConstraints()
+        configureScrollView()
         configureButtons()
+        configureGestures()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -30,8 +32,23 @@ class ImagePreviewViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
 
+    @objc func zoomOut() {
+        imagePreviewView.scrollView.zoomScale = 1.0
+    }
+
+    private func configureScrollView() {
+        imagePreviewView.scrollView.delegate = self
+    }
+
     private func configureButtons() {
         imagePreviewView.backButton.addTarget(self, action: #selector(back), for: .touchUpInside)
+    }
+
+    private func configureGestures() {
+        // Double Tap
+        let doubleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(zoomOut))
+        doubleTap.numberOfTapsRequired = 2
+        self.imagePreviewView.scrollView.addGestureRecognizer(doubleTap)
     }
 
     private func setupConstraints() {
@@ -44,5 +61,10 @@ class ImagePreviewViewController: UIViewController {
             imagePreviewView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
             ])
     }
+}
 
+extension ImagePreviewViewController: UIScrollViewDelegate {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return imagePreviewView.capturedImageView
+    }
 }
